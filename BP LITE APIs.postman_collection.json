@@ -1,0 +1,323 @@
+{
+	"info": {
+		"_postman_id": "205869ad-811c-4139-a76c-d9a9fec61699",
+		"name": "BP LITE APIs Sandbox",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "33573683"
+	},
+	"item": [
+		{
+			"name": "Standard Payment",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"apikey = pm.collectionVariables.get(\"APIKEY\");\r",
+							"mid = pm.collectionVariables.get(\"MERCHANTID\");\r",
+							"pm.globals.set('mid', mid);\r",
+							"\r",
+							"data = JSON.parse(request.data);\r",
+							"\r",
+							"data.merchant_id = mid;\r",
+							"\r",
+							"const sorted = Object.keys(data)\r",
+							"  .sort()\r",
+							"  .reduce((accumulator, key) => {\r",
+							"    accumulator[key] = data[key];\r",
+							"\r",
+							"    return accumulator;\r",
+							"  }, {});\r",
+							"\r",
+							"var hashFormat = '';\r",
+							"var hashString = '';\r",
+							"\r",
+							"Object.keys(sorted).forEach(key => {\r",
+							"\r",
+							"    if(key != 'hash')\r",
+							"    {\r",
+							"        if(typeof sorted[key] === 'object'){\r",
+							"\r",
+							"        parentSorted = sorted[key];\r",
+							"\r",
+							"        Object.keys(parentSorted).forEach(parentKey => {\r",
+							"\r",
+							"                childSorted = parentSorted[parentKey];\r",
+							"\r",
+							"                Object.keys(childSorted).forEach(childKey => {\r",
+							"                    hashString += childSorted[childKey];\r",
+							"                    hashFormat += childKey + \" + \";\r",
+							"                })\r",
+							"        })\r",
+							"    }else{\r",
+							"            hashString += sorted[key];\r",
+							"            hashFormat += key + \" + \";\r",
+							"    }\r",
+							"\r",
+							"    }\r",
+							"  \r",
+							"});\r",
+							"\r",
+							"hashFormat = hashFormat.substring(0, hashFormat.length - 3);\r",
+							"hashString = hashString.replace(/\\s+/g, '');\r",
+							"\r",
+							"console.log(hashFormat); //Hash Format String for you reference\r",
+							"console.log(hashString); //Hash String to be encrypt\r",
+							"\r",
+							"var crypto = require('crypto-js');\r",
+							"\r",
+							"strmd5 = crypto.HmacSHA256(hashString, apikey).toString(CryptoJS.enc.Hex);\r",
+							"\r",
+							"pm.globals.set('hash', strmd5);\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "merchant_id",
+							"value": "{{mid}}",
+							"type": "text"
+						},
+						{
+							"key": "invoice",
+							"value": "INV0001",
+							"type": "text"
+						},
+						{
+							"key": "amount",
+							"value": "250.00",
+							"type": "text"
+						},
+						{
+							"key": "payment_desc",
+							"value": "PARKING FEE",
+							"type": "text"
+						},
+						{
+							"key": "currency",
+							"value": "MYR",
+							"type": "text"
+						},
+						{
+							"key": "buyer_name",
+							"value": "JOHN ",
+							"type": "text"
+						},
+						{
+							"key": "buyer_email",
+							"value": "JOHN@DOMAIN.COM",
+							"type": "text"
+						},
+						{
+							"key": "phone",
+							"value": "+60171234567",
+							"type": "text"
+						},
+						{
+							"key": "hash",
+							"value": "{{hash}}",
+							"type": "text"
+						}
+					]
+				},
+				"url": "https://www.demo.betterpay.me/merchant/api/v2/receiver"
+			},
+			"response": []
+		},
+		{
+			"name": "Direct Payment",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"apikey = pm.collectionVariables.get(\"APIKEY\");\r",
+							"mid = pm.collectionVariables.get(\"MERCHANTID\");\r",
+							"pm.globals.set('mid', mid);\r",
+							"\r",
+							"data = JSON.parse(request.data);\r",
+							"\r",
+							"data.merchant_id = mid;\r",
+							"\r",
+							"const sorted = Object.keys(data)\r",
+							"  .sort()\r",
+							"  .reduce((accumulator, key) => {\r",
+							"    accumulator[key] = data[key];\r",
+							"\r",
+							"    return accumulator;\r",
+							"  }, {});\r",
+							"\r",
+							"var hashFormat = '';\r",
+							"var hashString = '';\r",
+							"\r",
+							"Object.keys(sorted).forEach(key => {\r",
+							"\r",
+							"    if(key != 'hash')\r",
+							"    {\r",
+							"        if(typeof sorted[key] === 'object'){\r",
+							"\r",
+							"        parentSorted = sorted[key];\r",
+							"\r",
+							"        Object.keys(parentSorted).forEach(parentKey => {\r",
+							"\r",
+							"                childSorted = parentSorted[parentKey];\r",
+							"\r",
+							"                Object.keys(childSorted).forEach(childKey => {\r",
+							"                    hashString += childSorted[childKey];\r",
+							"                    hashFormat += childKey + \" + \";\r",
+							"                })\r",
+							"        })\r",
+							"    }else{\r",
+							"            hashString += sorted[key];\r",
+							"            hashFormat += key + \" + \";\r",
+							"    }\r",
+							"\r",
+							"    }\r",
+							"  \r",
+							"});\r",
+							"\r",
+							"hashFormat = hashFormat.substring(0, hashFormat.length - 3);\r",
+							"hashString = hashString.replace(/\\s+/g, '');\r",
+							"\r",
+							"console.log(hashFormat); //Hash Format String for you reference\r",
+							"console.log(hashString); //Hash String to be encrypt\r",
+							"\r",
+							"var crypto = require('crypto-js');\r",
+							"\r",
+							"strmd5 = crypto.HmacSHA256(hashString, apikey).toString(CryptoJS.enc.Hex);\r",
+							"\r",
+							"pm.globals.set('hash', strmd5);\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"merchant_id\": \"{{mid}}\",\r\n    \"invoice\": \"INV0001\",\r\n    \"amount\": \"250.00\",\r\n    \"payment_desc\": \"PARKING FEE\",\r\n    \"currency\": \"MYR\",\r\n    \"buyer_name\": \"JOHN\",\r\n    \"buyer_email\": \"JOHN@DOMAIN.COM\",\r\n    \"phone\": \"+60171234567\",\r\n    \"bank_code\": \"ABB0233\",\r\n    \"hash\": \"{{hash}}\",\r\n\r\n    \"hostedCard\": true,\r\n    \"respond\": \"1\",\r\n    \"skip_receipt\": \"0\",\r\n    \"add_line_1\": \"10-3, 3RD FLOOR JLN PJU 5/9\",\r\n    \"add_line_2\": \"DATARAN SUNWAY KOTA DAMANSARA\",\r\n    \"postcode\": \"47810\",\r\n    \"city\": \"PETALING JAYA\",\r\n    \"comment\": \"Sample comment from payer\",\r\n    \"callback_url_be\": \"https://domain.com/callback\",\r\n    \"callback_url_fe_fail\": \"https://domain.com/return/fail\",\r\n    \"callback_url_fe_succ\": \"https://domain.com/return/success\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "https://www.demo.betterpay.me/merchant/api/v2/lite/direct/receiver"
+			},
+			"response": []
+		},
+		{
+			"name": "Payment Link",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"apikey = pm.collectionVariables.get(\"APIKEY\");\r",
+							"mid = pm.collectionVariables.get(\"MERCHANTID\");\r",
+							"pm.globals.set('mid', mid);\r",
+							"\r",
+							"data = JSON.parse(request.data);\r",
+							"\r",
+							"purpose = data.purpose;\r",
+							"amount_option = data.amount_option;\r",
+							"amount = data.amount;\r",
+							"delivery_option = data.delivery_option;\r",
+							"\r",
+							"\r",
+							"var str = mid + \"|\" + apikey + \"|\" + purpose + \"|\" + amount_option + \"|\" + amount + \"|\" + delivery_option;\r",
+							"\r",
+							"console.log(str);\r",
+							"\r",
+							"//MD5 encryption of STR\r",
+							"var strmd5= CryptoJS.MD5(str).toString();\r",
+							"pm.globals.set('hash', strmd5);"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"merchant_id\": \"{{mid}}\",\r\n    \"purpose\": \"Online Payment for Parking Ticket\",\r\n    \"amount_option\": \"Fixed\",\r\n    \"amount\": \"100.55\",\r\n    \"delivery_option\": \"0\",\r\n\r\n    \"due_date\": \"2024-04-03\",\r\n    \"usage\": \"44\",\r\n    \"max_collection\": \"1500.55\",\r\n\r\n    \"hash\": \"{{hash}}\"\r\n\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "https://www.demo.betterpay.me/merchant/api/v2/lite/link/create"
+			},
+			"response": []
+		},
+		{
+			"name": "Get Payment Channels",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": "https://www.demo.betterpay.me/merchant/api/v2/lite/channels"
+			},
+			"response": []
+		},
+		{
+			"name": "Get Payment Status",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": "https://www.demo.betterpay.me/merchant/api/v2/lite/requery"
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "MERCHANTID",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "APIKEY",
+			"value": "",
+			"type": "string"
+		}
+	]
+}
