@@ -1,9 +1,9 @@
 {
 	"info": {
-		"_postman_id": "249f4c55-0266-4583-a474-44af1ce2d78c",
+		"_postman_id": "154a3e3c-36ed-44a9-8a2f-4ec9f8feec9d",
 		"name": "BP PRO APIs Sandbox",
-		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
-		"_exporter_id": "33573683"
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "5015714"
 	},
 	"item": [
 		{
@@ -18,15 +18,14 @@
 							"\r",
 							"pm.globals.set('mid', mid);\r",
 							"\r",
-							"data = JSON.parse(request.data);\r",
+							"data = request.data;\r",
 							"\r",
 							"invoice = data.invoice;\r",
 							"amount = data.amount;\r",
 							"payment_desc = data.payment_desc;\r",
 							"currency = data.currency;\r",
-							"purpose = data.purpose\r",
 							"\r",
-							"var str = apikey + \"|\" + mid + \"|\" + purpose + \"|\" + invoice + \"|\" + amount + \"|\" + payment_desc + \"|\" + currency;\r",
+							"var str = apikey + \"|\" + mid +  \"|\" + invoice + \"|\" + amount + \"|\" + payment_desc + \"|\" + currency;\r",
 							"\r",
 							"console.log(str);\r",
 							"\r",
@@ -44,15 +43,56 @@
 				"method": "POST",
 				"header": [],
 				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"merchant_id\":\"{{mid}}\",\r\n    \"invoice\": \"INV0001\",\r\n    \"amount\": \"250\",\r\n    \"payment_desc\": \"PARKING FEE\",\r\n    \"currency\": \"MYR\",\r\n    \"hash\":\"{{hash}}\"\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "merchant_id",
+							"value": "{{mid}}",
+							"type": "text"
+						},
+						{
+							"key": "invoice",
+							"value": "INV0001",
+							"type": "text"
+						},
+						{
+							"key": "amount",
+							"value": "250",
+							"type": "text"
+						},
+						{
+							"key": "payment_desc",
+							"value": "PARKING FEE",
+							"type": "text"
+						},
+						{
+							"key": "currency",
+							"value": "MYR",
+							"type": "text"
+						},
+						{
+							"key": "hash",
+							"value": "{{hash}}",
+							"type": "text"
 						}
-					}
+					]
 				},
-				"url": "https://www.demo.betterpay.me/merchant/api/v2/receiver"
+				"url": {
+					"raw": "https://www.demo.betterpay.me/merchant/api/v2/receiver",
+					"protocol": "https",
+					"host": [
+						"www",
+						"demo",
+						"betterpay",
+						"me"
+					],
+					"path": [
+						"merchant",
+						"api",
+						"v2",
+						"receiver"
+					]
+				}
 			},
 			"response": []
 		},
@@ -102,7 +142,22 @@
 						}
 					}
 				},
-				"url": "https://www.demo.betterpay.me/merchant/api/v2/create_bill"
+				"url": {
+					"raw": "https://www.demo.betterpay.me/merchant/api/v2/create_bill",
+					"protocol": "https",
+					"host": [
+						"www",
+						"demo",
+						"betterpay",
+						"me"
+					],
+					"path": [
+						"merchant",
+						"api",
+						"v2",
+						"create_bill"
+					]
+				}
 			},
 			"response": []
 		},
@@ -147,7 +202,22 @@
 						}
 					}
 				},
-				"url": "https://www.demo.betterpay.me/merchant/api/v2/create_bill"
+				"url": {
+					"raw": "https://www.demo.betterpay.me/merchant/api/v2/create_bill",
+					"protocol": "https",
+					"host": [
+						"www",
+						"demo",
+						"betterpay",
+						"me"
+					],
+					"path": [
+						"merchant",
+						"api",
+						"v2",
+						"create_bill"
+					]
+				}
 			},
 			"response": []
 		},
@@ -200,7 +270,23 @@
 						}
 					}
 				},
-				"url": "https://www.demo.betterpay.me/merchant/api/v2/direct/receiver"
+				"url": {
+					"raw": "https://www.demo.betterpay.me/merchant/api/v2/direct/receiver",
+					"protocol": "https",
+					"host": [
+						"www",
+						"demo",
+						"betterpay",
+						"me"
+					],
+					"path": [
+						"merchant",
+						"api",
+						"v2",
+						"direct",
+						"receiver"
+					]
+				}
 			},
 			"response": []
 		},
@@ -250,7 +336,23 @@
 						}
 					}
 				},
-				"url": "https://www.demo.betterpay.me/merchant/api/v2/link/create"
+				"url": {
+					"raw": "https://www.demo.betterpay.me/merchant/api/v2/link/create",
+					"protocol": "https",
+					"host": [
+						"www",
+						"demo",
+						"betterpay",
+						"me"
+					],
+					"path": [
+						"merchant",
+						"api",
+						"v2",
+						"link",
+						"create"
+					]
+				}
 			},
 			"response": []
 		},
@@ -259,7 +361,23 @@
 			"request": {
 				"method": "POST",
 				"header": [],
-				"url": "https://www.demo.betterpay.me/merchant/api/v2/link/delete"
+				"url": {
+					"raw": "https://www.demo.betterpay.me/merchant/api/v2/link/delete",
+					"protocol": "https",
+					"host": [
+						"www",
+						"demo",
+						"betterpay",
+						"me"
+					],
+					"path": [
+						"merchant",
+						"api",
+						"v2",
+						"link",
+						"delete"
+					]
+				}
 			},
 			"response": []
 		},
@@ -301,7 +419,23 @@
 						}
 					}
 				},
-				"url": "https://www.demo.betterpay.me/merchant/api/v2/link/list"
+				"url": {
+					"raw": "https://www.demo.betterpay.me/merchant/api/v2/link/list",
+					"protocol": "https",
+					"host": [
+						"www",
+						"demo",
+						"betterpay",
+						"me"
+					],
+					"path": [
+						"merchant",
+						"api",
+						"v2",
+						"link",
+						"list"
+					]
+				}
 			},
 			"response": []
 		},
@@ -349,7 +483,23 @@
 						}
 					}
 				},
-				"url": "https://www.demo.betterpay.me/merchant/api/v2/link/report"
+				"url": {
+					"raw": "https://www.demo.betterpay.me/merchant/api/v2/link/report",
+					"protocol": "https",
+					"host": [
+						"www",
+						"demo",
+						"betterpay",
+						"me"
+					],
+					"path": [
+						"merchant",
+						"api",
+						"v2",
+						"link",
+						"report"
+					]
+				}
 			},
 			"response": []
 		},
@@ -394,7 +544,23 @@
 						}
 					}
 				},
-				"url": "https://www.demo.betterpay.me/merchant/api/v2/direct/get_bank_list"
+				"url": {
+					"raw": "https://www.demo.betterpay.me/merchant/api/v2/direct/get_bank_list",
+					"protocol": "https",
+					"host": [
+						"www",
+						"demo",
+						"betterpay",
+						"me"
+					],
+					"path": [
+						"merchant",
+						"api",
+						"v2",
+						"direct",
+						"get_bank_list"
+					]
+				}
 			},
 			"response": []
 		},
@@ -436,7 +602,22 @@
 						}
 					}
 				},
-				"url": "https://www.demo.betterpay.me/merchant/api/v2/get_settlement"
+				"url": {
+					"raw": "https://www.demo.betterpay.me/merchant/api/v2/get_settlement",
+					"protocol": "https",
+					"host": [
+						"www",
+						"demo",
+						"betterpay",
+						"me"
+					],
+					"path": [
+						"merchant",
+						"api",
+						"v2",
+						"get_settlement"
+					]
+				}
 			},
 			"response": []
 		}
