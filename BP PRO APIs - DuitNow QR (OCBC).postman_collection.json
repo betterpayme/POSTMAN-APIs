@@ -1,0 +1,230 @@
+{
+	"info": {
+		"_postman_id": "01fe120d-bd76-4e91-b5b9-e8da3d7c1273",
+		"name": "BP PRO APIs - DuitNow QR (OCBC)",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "5015714"
+	},
+	"item": [
+		{
+			"name": "Create QR Image",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"apikey = pm.collectionVariables.get(\"APIKEY\");\r",
+							"mid = pm.collectionVariables.get(\"MERCHANTID\");\r",
+							"\r",
+							"pm.globals.set('mid', mid);\r",
+							"\r",
+							"data = JSON.parse(request.data);\r",
+							"\r",
+							"invoice = data.invoice;\r",
+							"amount = data.amount;\r",
+							"payment_desc = data.payment_desc;\r",
+							"currency = data.currency;\r",
+							"payment_method = data.payment_method\r",
+							"bank_code = data.bank_code\r",
+							"purpose = data.purpose\r",
+							"\r",
+							"var str = apikey + \"|\" + mid +  \"|\" + invoice + \"|\" + amount + \"|\" + payment_desc + \"|\" + bank_code + \"|\" + payment_method + \"|\" + currency;\r",
+							"\r",
+							"console.log(str);\r",
+							"\r",
+							"//MD5 encryption of STR\r",
+							"var strmd5 = CryptoJS.MD5(str).toString();\r",
+							"pm.globals.set('hash', strmd5);\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"merchant_id\": \"{{mid}}\",\r\n    \"invoice\": \"REF1002132\",\r\n    \"amount\": \"1.50\",\r\n    \"payment_desc\": \"DuitNow QR Payment\",\r\n    \"currency\": \"MYR\",\r\n    \"payment_method\": \"ewallet\",\r\n    \"bank_code\": \"RPP_DUITNOWQR\",\r\n    \"respond\": 1,\r\n    \"qr_expiry_date_time\": \"2026-12-12 00:00:00\",\r\n    \"qr_image_size\": 10,\r\n    \"hash\": \"{{hash}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{APP_URL}}/merchant/api/v2/direct/receiver",
+					"host": [
+						"{{APP_URL}}"
+					],
+					"path": [
+						"merchant",
+						"api",
+						"v2",
+						"direct",
+						"receiver"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Payment Status",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"apikey = pm.collectionVariables.get(\"APIKEY\");\r",
+							"mid = pm.collectionVariables.get(\"MERCHANTID\");\r",
+							"\r",
+							"pm.globals.set('mid', mid);\r",
+							"\r",
+							"data = JSON.parse(request.data);\r",
+							"\r",
+							"invoice = data.invoice;\r",
+							"method = data.method;\r",
+							"\r",
+							"var str = mid + \"|\" + apikey + \"|\" + invoice  + \"|\" + method;\r",
+							"\r",
+							"console.log(str);\r",
+							"\r",
+							"//MD5 encryption of STR\r",
+							"var strmd5= CryptoJS.MD5(str).toString();\r",
+							"pm.globals.set('hash', strmd5);\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"merchant_id\": \"{{mid}}\",\r\n    \"invoice\": \"REF1002132\",\r\n    \"method\": \"1\",\r\n    \"hash\": \"{{hash}}\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{APP_URL}}/merchant/api/v2/requery",
+					"host": [
+						"{{APP_URL}}"
+					],
+					"path": [
+						"merchant",
+						"api",
+						"v2",
+						"requery"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Bank List (eWallet)",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"apikey = pm.collectionVariables.get(\"APIKEY\");\r",
+							"mid = pm.collectionVariables.get(\"MERCHANTID\");\r",
+							"pm.globals.set('mid', mid);\r",
+							"\r",
+							"data = JSON.parse(request.data);\r",
+							"\r",
+							"type = data.type;\r",
+							"pm.globals.set('type', type);\r",
+							"\r",
+							"var str = apikey + \"|\" + mid + \"|\" + type;\r",
+							"\r",
+							"console.log(str);\r",
+							"\r",
+							"//MD5 encryption of STR\r",
+							"var strmd5= CryptoJS.MD5(str).toString();\r",
+							"pm.globals.set('hash', strmd5);"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"merchant_id\": \"{{mid}}\",\r\n    \"type\": \"ewallet\",\r\n    \"currency\": \"MYR\",\r\n    \"hash\": \"{{hash}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{APP_URL}}/merchant/api/v2/direct/get_bank_list",
+					"host": [
+						"{{APP_URL}}"
+					],
+					"path": [
+						"merchant",
+						"api",
+						"v2",
+						"direct",
+						"get_bank_list"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"requests": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"requests": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "APP_URL",
+			"value": ""
+		},
+		{
+			"key": "MERCHANTID",
+			"value": ""
+		},
+		{
+			"key": "APIKEY",
+			"value": ""
+		}
+	]
+}
